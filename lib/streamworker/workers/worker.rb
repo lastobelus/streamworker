@@ -22,6 +22,11 @@ module Streamworker
         @repeats = @repeats.to_i
         @fragment = false
         @started_at = Time.now
+
+        if defined?(AppConfig)
+          @opts[:unicorn_timeout] ||= AppConfig.unicorn_timeout
+        end
+
         @opts[:unicorn_timeout] ||= ENV['UNICORN_TIMEOUT']
         @opts[:unicorn_timeout] ||= 30
         @opts[:unicorn_timeout] = @opts[:unicorn_timeout].to_i
