@@ -28,6 +28,18 @@ describe Streamworker::Workers::Worker do
 
   describe "#header + #footer" do
     specify { (worker.header + worker.footer('finished')).should be_valid_markup }
+    specify { (worker.header + worker.footer).should be_valid_markup } # no message at all
+
+    it "includes all messages" do
+      worker.push_footer_message "BOB"
+      worker.push_footer_message "RALPH"
+      html = worker.header + worker.footer("MARY")
+      html.should be_valid_markup
+      html.should include("BOB")
+      html.should include("RALPH")
+      html.should include("MARY")
+    end
+
   end
 
   describe "#queries_per_record" do

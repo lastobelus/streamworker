@@ -12,6 +12,7 @@ module Streamworker
       attr_accessor :line_num # subclasses responsible for setting this as appropriate
       attr_accessor :title
       attr_accessor :num_records, :num_success, :num_errors
+      attr_accessor :footer_messages
 
       def initialize(view_context, opts={})
         @opts = opts.with_indifferent_access
@@ -33,6 +34,8 @@ module Streamworker
         @num_records = opts[:num_records].to_i || 1
         @num_success = 0
         @num_errors = 0
+
+        @footer_messages = []
       end
 
 
@@ -147,10 +150,18 @@ module Streamworker
         }
       end
 
-      def footer(msg)
+      def push_footer_message(msg)
+        @footer_messages << msg
+      end
+
+      def footer(msg=nil)
+        @footer_messages << msg unless msg.blank?
+        message = @footer_messages.empty? ? "" : "<h3>"
+        message << @footer_messages.join('</h3><h3>')
+        message += "</h3>" unless message.blank?
         <<-EOHTML
           </div>
-          <h3>#{msg}</h3>
+          #{message}
           #{scroll}
 
         </div>#{self.foot}
