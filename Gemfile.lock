@@ -18,7 +18,7 @@ GIT
 PATH
   remote: .
   specs:
-    streamworker (0.0.4)
+    streamworker (0.0.5)
       rails (~> 3.2)
       slim (>= 2.0.0.pre.8)
       unicorn
