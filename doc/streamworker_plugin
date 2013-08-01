@@ -1,0 +1,109 @@
+current methods, with the elements they access:
+
+function update_stream_worker_progress{
+  $("#stream-worker-progress"); }
+
+function pauseStreamWorker(id, btn_id) {
+  var pause_btn = pauseButton(id, btn_id);
+  $("#stream_worker-modal .modal-footer") }
+
+function resumeStreamWorker(id, btn_id) {
+  var pause_btn = pauseButton(id, btn_id);
+  $("#stream_worker-modal .modal-footer").hide(); }
+
+// either [button#id] or [button#id, button#new]
+function pauseButton(id, btn_id){
+  return $("#stream_worker-pause-btn-"+ id).add("#stream_worker-pause-btn-"+ btn_id); }
+
+function enableModalPauseButton(id)
+function disablePauseButton(id) {
+  pauseButton(id, 'new')}
+
+function enablePauseButton(id) {
+  _enablePauseButton(id, id) ;
+}
+
+function _enablePauseButton(id, btn_id) {
+  var pause_btn = pauseButton(btn_id, btn_id);
+  pause_btn.on('click', function() {
+    $.ajax({
+      url: "/metafield_exports/" + id + "/event",
+      success: function (data) {
+        switch(data.state) {
+        case "paused":
+        pauseStreamWorker(id, btn_id);
+        break;
+        case "created":
+        case "initialized":
+        case "processing":
+        resumeStreamWorker(id, btn_id);
+        $('#resume-metafield_export-form').submit();}
+
+function triggerModalPauseButton(id){
+  var pause_btn = pauseButton('new', 'new');}
+
+
+
+in modal template:
+:javascript
+
+    $('#stream_worker-frame').load -> $("#stream_worker-modal .modal-footer").show();
+    $("#stream_worker-frame").bind('adjust-size', function(event) {
+      var height = $(window).height();
+      height = (height - 165) * 0.9 | 0;
+      $(this).css('height', height);
+    });
+    $("#stream_worker-frame").trigger('adjust-size');
+  });
+
+
+
+current elements:
+0. template:
+  export_modal (in metafields_exports)
+    content_for :stream_worker_modal_header_left
+    content_for :stream_worker_modal_header_right
+      pause button
+    results_modal
+
+1. streamworker window in _results_modal:
+
+#stream_worker-modal
+  .modal-header
+    = content_for :stream_worker_modal_header_left
+    = content_for :stream_worker_modal_header_right
+    #stream-worker-progress
+  .modal-body
+    %iframe#stream_worker-frame{
+  .modal-footer.hide
+    %button.btn Close
+
+2. resume form in export_modal
+
+
+
+collaborations:
+
+1. streamworker modal can be on streamjob index, or streamjob new
+2. when streamworker is on streamjob index, needs to keep in sync with the streamjob in the streamjob list that it is running
+3. streamworker is a widget
+4. streamjob_control is a widget (pause/resume button)
+5. streamjob_control tells streamworker to start running a streamjob, or pause a streamjob
+6. streamworker has its own pause/resume button. It uses a hidden form for resume. The action is specific to the entity underlying a streamjob. The action gets set by the streamjob_control
+
+
+
+
+How to proceed:
+
+1. create blank streamworker plugin
+2. create blank streamjob_control plugin
+3. ensure loading
+4. give streamjob_controls a reference to a streamworker
+5. ensure that clicking streamjob_control sends correct event to streamworker
+6. give streamworker an option that is used to construct the resume action
+7. extract resume action
+8. add global reference to webify.streamworker that is the plugin instance
+9. make the parent.webify.streamworker reference configurable in streamworker
+9. refactor all parent.xxx calls, going through configurable reference and moving xxx to streamworker plugin
+10. decide next steps
