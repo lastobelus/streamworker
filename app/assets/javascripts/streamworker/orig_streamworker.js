@@ -1,16 +1,3 @@
-function update_stream_worker_progress(total, success, errors){
-  var bar = $("#stream-worker-progress");
-  var bar_success = $("#stream-worker-progress .bar-success");
-  var bar_error = $("#stream-worker-progress .bar-danger");
-
-  bar_success.width(
-    Math.floor(success*bar.width()/total)
-  );
-  bar_error.width(
-    Math.floor(errors*bar.width()/total)
-  );
-}
-
 function pauseStreamWorker(id, btn_id) {
   console.log("pauseStreamWorker id: " + id + " btn_id: " + btn_id);
   var pause_btn = pauseButton(id, btn_id);

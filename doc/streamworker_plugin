@@ -99,7 +99,9 @@ How to proceed:
 X 1. create blank streamworker plugin
 X 2. create blank streamjob_control plugin
 X 2.5 move orig js from metafieldeditor
-3. ensure loading
+X 2.6 create a streamworker object in webify namespace
+X 3. ensure loading
+3.5 
 4. give streamjob_controls a reference to a streamworker
 5. ensure that clicking streamjob_control sends correct event to streamworker
 6. give streamworker an option that is used to construct the resume action

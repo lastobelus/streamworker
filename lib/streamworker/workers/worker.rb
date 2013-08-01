@@ -178,7 +178,7 @@ module Streamworker
       def scroll
         %Q{<script type="text/javascript">
               scrollBottom();
-              parent.update_stream_worker_progress(#{num_records}, #{num_success}, #{num_errors});
+              parent.webify.streamworker.updateProgress(#{num_records}, #{num_success}, #{num_errors});
             </script>
         }
       end

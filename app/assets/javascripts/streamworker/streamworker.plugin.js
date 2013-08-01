@@ -27,6 +27,9 @@
             // on which the widget was called via this.element.
             // The options defined above can be accessed
             // via this.options this.element.addStuff();
+            this._progress = this.element.find('.streamworker-progress');
+            this._progress_success = this._progress.find('.bar-success');
+            this._progress_error = this._progress.find('.bar-error');
         },
 
         // Destroy an instantiated plugin and clean up
@@ -59,7 +62,12 @@
         },
 
         updateProgress: function( total, success, errors ) {
-          console.log('updateProgress called. total: ' + total + 'success: ' + success + 'errors: ' + errors);
+          this._progress_success.width(
+            Math.floor(success * this._progress.width() / total )
+          );
+          this._progress_error.width(
+            Math.floor( errors * this._progress.width() / total )
+          );
         },
 
         // Respond to any changes the user makes to the
