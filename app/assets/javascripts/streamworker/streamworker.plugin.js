@@ -14,7 +14,7 @@
 
         //Options to be used as defaults
         options: {
-            someValue: null
+            jobPath: "/jobs"
         },
 
         //Setup widget (eg. element creation, apply theming
@@ -56,6 +56,10 @@
             this._trigger("dataChanged", event, {
                 key: "someValue"
             });
+        },
+
+        updateProgress: function( total, success, errors ) {
+          console.log('updateProgress called. total: ' + total + 'success: ' + success + 'errors: ' + errors);
         },
 
         // Respond to any changes the user makes to the
